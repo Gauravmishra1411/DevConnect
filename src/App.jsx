@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Body from "./page/Body";
-import Login from "./page/Login";
-import Signup from "./page/Signup";
-import Profile from "./page/Profile"; 
-import ProtectedRoute from "./router/ProtectedRoute";
+import { BrowserRouter, Routes, Route } from "react-router-dom"; 
+import Body from "./Pages/Body";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import Profile from "./Pages/Profile";
+import ProtectedRoute from "./PrtectedRoute/ProtectedRoute";
 
 const App = () => {
   return (

@@ -1,7 +1,7 @@
-import axios from "axios";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../redux/FeedSlice";
-import { useEffect } from "react";
+import axios from "axios";
 
 const Feed = () => {
   const feedsDatas = useSelector((store) => store.feed);
@@ -15,7 +15,10 @@ const Feed = () => {
         { withCredentials: true }
       );
       alert(response.data.message);
+      await getFeed();
     } catch (err) {
+      alert(err.response?.data.message);
+      
       console.error("connection error", err.response?.data || err.message);
     }
   };
