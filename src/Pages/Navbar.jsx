@@ -1,121 +1,98 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { removeUser } from "../redux/UserSlice";
-import { useState } from "react";
+import { removeUser, addUser } from "../redux/UserSlice";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const [open, setOpen] = useState(false);
-
+  // console.log(user.data.firstName, "user in Navbar.jsx");
   const logout = () => {
-    localStorage.clear();
+    localStorage.clear(null);
+    navigate("/");
     dispatch(removeUser());
-    navigate("/login");
     setOpen(false);
   };
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      dispatch(addUser(storedUser));
+    }
+  }, []);
 
   return (
-    <nav className="bg-slate-800 text-white sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center h-14">
-          {/* Logo */}
-          <Link to="/login" className="text-xl font-bold tracking-wide">
-            DevConnect
+    <div className="hidden md:flex items-left gap-6">
+      {user?.data ? (
+        <>
+          {/* Navigation Links */}
+          <Link
+            to="/myconnection"
+            className="text-sm font-medium text-gray-200 hover:text-emerald-400 transition-colors duration-200"
+          >
+            My Connections
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6">
-            {user ? (
-              <>
-                <Link
-                  to="/profile"
-                  className="hover:text-emerald-400 transition"
-                >
-                  Profile
-                </Link>
-                <button
-                  onClick={logout}
-                  className="bg-red-500 px-4 py-1 rounded-md hover:bg-red-600 transition"
-                >
-                  Logout
-                </button>
-                {user?.photoUrl ? (
-                  <img
-                    src={user.photoUrl}
-                    alt={user?.firstName?.charAt(0).toUpperCase()}
-                    className="w-9 h-9 rounded-full border border-white object-cover"
-                  />
-                ) : (
-                  <div className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold uppercase border border-white">
-                    {user?.firstName?.charAt(0)}
-                  </div>
-                )}
-              </>
+          <Link
+            to="/connectionList"
+            className="text-sm font-medium text-gray-200 hover:text-emerald-400 transition-colors duration-200"
+          >
+            ConnectedWithUs
+          </Link>
+
+          {/* User Info */}
+          <div className="flex items-center gap-3 pl-4 border-l border-gray-600">
+            <div className="text-left leading-tight">
+              <p className="text-sm font-semibold capitalize">
+                {user.data.firstName}
+              </p>
+              <p className="text-xs text-gray-400 capitalize">
+                {user.data.lastName}
+              </p>
+            </div>
+
+            {/* Avatar */}
+            {user.data.photoUrl ? (
+              <img
+                src={user.data.photoUrl}
+                alt="profile"
+                className="w-9 h-9 rounded-full border border-gray-500 object-cover"
+              />
             ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="bg-emerald-500 px-4 py-1 rounded-md hover:bg-emerald-600"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="bg-indigo-500 px-4 py-1 rounded-md hover:bg-indigo-600"
-                >
-                  Sign Up
-                </Link>
-              </>
+              <div className="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center font-semibold uppercase">
+                {user.data.firstName?.[0]}
+              </div>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden text-2xl" onClick={() => setOpen(!open)}>
-            ☰
+          {/* Logout Button */}
+          <button
+            onClick={logout}
+            className="ml-2 px-4 py-1.5 text-sm font-medium rounded-md bg-red-500 hover:bg-red-600 active:scale-95 transition-all duration-150"
+          >
+            Logout
           </button>
-        </div>
-      </div>
+        </>
+      ) : (
+        <>
+          {/* Auth Buttons */}
+          <Link
+            to="/login"
+            className="px-4 py-1.5 text-sm font-medium rounded-md bg-emerald-500 hover:bg-emerald-600 transition-colors duration-200"
+          >
+            Login
+          </Link>
 
-      {/* Mobile Menu */}
-      {open && (
-        <div className="md:hidden bg-slate-700 px-4 py-3 space-y-3">
-          {user ? (
-            <>
-              <Link
-                to="/profile"
-                className="block hover:text-emerald-400"
-                onClick={() => setOpen(false)}
-              >
-                Profile
-              </Link>
-
-              <button onClick={logout} className="block text-left text-red-400">
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/login"
-                className="block hover:text-emerald-400"
-                onClick={() => setOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="block hover:text-emerald-400"
-                onClick={() => setOpen(false)}
-              >
-                Sign Up
-              </Link>
-            </>
-          )}
-        </div>
+          <Link
+            to="/signup"
+            className="px-4 py-1.5 text-sm font-medium rounded-md bg-indigo-500 hover:bg-indigo-600 transition-colors duration-200"
+          >
+            Sign Up
+          </Link>
+        </>
       )}
-    </nav>
+    </div>
   );
 };
 

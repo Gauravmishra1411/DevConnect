@@ -14,11 +14,12 @@ const Feed = () => {
         {},
         { withCredentials: true }
       );
+
       alert(response.data.message);
-      await getFeed();
+      getFeed();
     } catch (err) {
       alert(err.response?.data.message);
-      
+      getFeed();
       console.error("connection error", err.response?.data || err.message);
     }
   };
@@ -40,7 +41,7 @@ const Feed = () => {
 
   return (
     <div className="space-y-3">
-      {feedsDatas?.data?.length === 0 && (
+      {feedsDatas?.data?.length == 0 && (
         <p className="text-center text-gray-500 text-sm">
           No new connection requests
         </p>
@@ -59,7 +60,7 @@ const Feed = () => {
           />
 
           {/* Info */}
-          <div className="flex-1">
+          <div className="flex-1 text-black">
             <p className="font-semibold text-sm uppercase">
               {item.firstName} {item.lastName}
             </p>
@@ -69,9 +70,9 @@ const Feed = () => {
           <div className="flex gap-2">
             <button
               className="text-xs bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 rounded"
-              onClick={() => connectionReq(item._id, "intersted")}
+              onClick={() => connectionReq(item._id, "interested")}
             >
-              Accept
+              Interested
             </button>
 
             <button

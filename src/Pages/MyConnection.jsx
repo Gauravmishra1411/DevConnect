@@ -1,40 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { addreq } from "../redux/ReqRecevied";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-const baseurl = process.env.REACT_APP_LOCAL_URL;
+ 
+
+ import axios from "axios";
+ import { useEffect, useState } from "react";
+ import   "../index.css";
 
 const MyConnection = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const connections = useSelector((store) => store.reqrecived);
-
+  const [data, setData] = useState([]);
+ const userId = localStorage.getItem("userId");
+console.log("User in MyConnection jsx:", userId);
   const connectionReq = async () => {
     try {
-      const response = await axios.get(`${baseurl}/user/request`, {
+      const response = await axios.get(`http://localhost:8000/user/request`, {
         withCredentials: true,
       });
 
-      console.log("response data 👉", response.data.firstName);
-      dispatch(addreq(response.data));
-      console.log("connectionRequest..........", response);
+      setData(response?.data.data);
+       
     } catch (err) {
       console.log(err.message);
     }
   };
 
-  // const clickHandler = async ({ value, id }) => {
-  //   const responseed = await axios.post(
-  //     `http://localhost:8000/connection/request/${value}/${id}`,
-  //     {},
-  //     { withCredentials: true }
-  //   );
-
-  //   if (responseed) {
-  //     navigate("/MyConnection");
-  //   }
-  // };
   const clickHandler = async (value, id) => {
     try {
       const response = await axios.post(
@@ -43,6 +29,7 @@ const MyConnection = () => {
         { withCredentials: true }
       );
       alert(response.data.message);
+      setData(response?.data.data);
     } catch (err) {
       console.error("API Error:", err.response?.data || err.message);
     }
@@ -50,59 +37,64 @@ const MyConnection = () => {
 
   useEffect(() => {
     connectionReq();
+    // window.location.reload();
+
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-4">
-      {connections?.data.map((item, index) => (
-        <ul key={index} className="list bg-base-100 rounded-xl shadow-md">
-          <li className="list-row flex flex-col sm:flex-row items-center gap-4 p-4">
-            {/* Profile Image */}
+   <div className="bg-indigo-50 max-w-4xl mx-auto p-4 space-y-4">
+{userId ? (<> {data?.length > 0 ? (
+    data.map((item, index) => (
+      <ul
+        key={index}
+        className="list bg-base-100 rounded-xl shadow-md my-2 p-2"
+      >
+        <li className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 hover:bg-gray-100 transition-colors rounded-lg">
+          {/* Profile Image */}
+          <div>
             <img
-              src={item.fromUserId.photoUrl}
-              alt="photourl"
               className="w-14 h-14 rounded-full object-cover"
+              src={item?.fromUserId?.photoUrl}
+              alt="profile"
             />
+          </div>
 
-            {/* User Info */}
-            <div className="flex-1 text-center sm:text-left">
-              <p className="font-semibold">
-                {item.fromUserId.firstName} {item.fromUserId.lastName}
-              </p>
-              <p className="text-sm opacity-60">{item._id}</p>
+          {/* User Info */}
+          <div className="flex-1 text-center sm:text-left">
+            <div className="font-semibold text-gray-800">
+              {item?.fromUserId?.firstName} {item?.fromUserId?.lastName?.trim()}
             </div>
+            <div className="text-xs uppercase font-semibold opacity-60">
+              Joined: {new Date(item?.createdAt).toLocaleDateString()}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-2 mt-2 sm:mt-0">
             <button
-              className="cursor-pointer bg-gradient-to-b from-green-600 to-green-600 shadow-[0px_4px_32px_0_rgba(99,102,241,.70)] px-6 py-3 rounded-xl border-[1px] border-slate-500 text-white font-medium group"
+              className="cursor-pointer bg-gradient-to from-green-600 to-green-400 shadow-lg px-6 py-2 rounded-xl text-white font-medium hover:scale-105 transform transition-all duration-300"
               onClick={() => clickHandler("accepted", item._id)}
             >
-              <div className="relative overflow-hidden">
-                <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                  Accept
-                </p>
-                <p className="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                  click
-                </p>
-              </div>
-            </button>
-            <button
-              className="cursor-pointer bg-gradient-to-b from bg-red-600 to-indigo-600 shadow-[0px_4px_32px_0_rgba(99,102,241,.70)] px-6 py-3 rounded-xl border-[1px] border-slate-500 text-white font-medium group"
-              onClick={() => clickHandler("ignore", item._id)}
-            >
-              <div className="relative overflow-hidden">
-                <p className="group-hover:-translate-y-7 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                  Reject
-                </p>
-                <p className="absolute top-7 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                  click
-                </p>
-              </div>
+              Accept
             </button>
 
-            {/* Actions */}
-          </li>
-        </ul>
-      ))}
-    </div>
+            <button
+              className="cursor-pointer bg-gradient-to from-red-600 to-indigo-600 shadow-lg px-6 py-2 rounded-xl text-white font-medium hover:scale-105 transform transition-all duration-300"
+              onClick={() => clickHandler("ignore", item._id)}
+            >
+              Rejected
+            </button>
+          </div>
+        </li>
+      </ul>
+    ))
+  ) : (
+    <p className="text-center text-gray-500 py-10">No connections found.</p>
+  )}</>):(<>""</>)}
+
+ 
+</div>
+
   );
 };
 

@@ -1,3 +1,112 @@
 @import "tailwindcss";
-
+ 
 @plugin "daisyui";
+
+/* Container */
+.connections-wrapper {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+}
+
+/* List */
+.connections-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.connections-header {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* Row */
+.connection-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Avatar */
+.connection-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: #e5e7eb;
+  flex-shrink: 0;
+}
+
+/* User Info */
+.connection-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.connection-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.connection-sub {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+/* Buttons */
+.connection-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.connection-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.connection-btn:hover {
+  background: #f3f4f6;
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 640px) {
+  .connection-row {
+    gap: 16px;
+  }
+
+  .connection-name {
+    font-size: 16px;
+  }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 1024px) {
+  .connections-wrapper {
+    padding: 2rem;
+  }
+
+  .connection-row {
+    padding: 16px 20px;
+  }
+
+  .connection-avatar {
+    width: 48px;
+    height: 48px;
+  }
+}

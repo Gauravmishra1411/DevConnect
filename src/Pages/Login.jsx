@@ -30,9 +30,10 @@ const Login = () => {
 
       if (responseLogin.data.success) {
         localStorage.setItem("userId", responseLogin.data.data._id);
-        dispatch(addUser(responseLogin.data.data));
+        dispatch(addUser(responseLogin?.data.data));
         navigate("/profile");
       }
+      // console.log("Login response....", responseLogin?.data?.data);
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
     } finally {
@@ -47,9 +48,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-700 px-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
-
-        <h2 className="text-2xl font-bold text-center mb-6 text-slate-800">
+      <div className="w-full max-w-md bg-slate rounded-xl shadow-lg p-6">
+        <h2 className="text-2xl font-bold text-center mb-6 text-white-800">
           Login to your account
         </h2>
 
