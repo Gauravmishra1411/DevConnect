@@ -10,13 +10,11 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const feedsDatas = useSelector((store) => store.feed);
-  console.log(feedsDatas, "feedsDatas in Profile.jsx");
-  const userId = localStorage.getItem("userId");
+   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-    console.log(userId, "userId in Profile.jsx");
-    if (!userId) {
+     if (!userId) {
       navigate("/login");
       return;
     }
@@ -29,8 +27,7 @@ const Profile = () => {
         );
         dispatch(addUser(res.data));
         setUser(res?.data.data);
-        console.log("Profile data:", res?.data.data);
-      } catch (error) {
+       } catch (error) {
         console.error("Profile error", error);
       }
     };

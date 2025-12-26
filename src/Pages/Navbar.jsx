@@ -8,8 +8,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const [open, setOpen] = useState(false);
-  // console.log(user.data.firstName, "user in Navbar.jsx");
-  const logout = () => {
+   const logout = () => {
     localStorage.clear(null);
     navigate("/");
     dispatch(removeUser());

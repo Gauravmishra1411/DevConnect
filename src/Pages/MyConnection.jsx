@@ -7,8 +7,7 @@
 const MyConnection = () => {
   const [data, setData] = useState([]);
  const userId = localStorage.getItem("userId");
-console.log("User in MyConnection jsx:", userId);
-  const connectionReq = async () => {
+   const connectionReq = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/user/request`, {
         withCredentials: true,

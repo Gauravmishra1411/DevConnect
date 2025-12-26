@@ -8,7 +8,7 @@ const Chat = () => {
   const { id } = useParams();
   const [detail, setDetail] = useState(null);
   const [yourdetail, setYourDetail] = useState("");
-  console.log(user.data, "id from params");
+  // console.log(user.data, "id from params");
 const {_id} = user.data;
   useEffect(() => {
     // if (!id || !user) return;
@@ -18,7 +18,7 @@ const {_id} = user.data;
           withCredentials: true,
         });
         setYourDetail(res.data.data);
-        console.log(res.data, "your detail response");
+        // console.log(res.data, "your detail response");
       } catch (err) {
         console.log(err.message);
       }
@@ -38,7 +38,7 @@ const {_id} = user.data;
     targetDetail();
   }, [id]);
  
-  console.log(yourdetail, "yourdetail");
+  // console.log(yourdetail, "yourdetail");
   return (
     <div className="relative h-[450px] w-1/2 bg-amber-300 border-4 p-4 flex flex-col">
       {/* RECEIVER */}

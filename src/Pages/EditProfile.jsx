@@ -8,15 +8,13 @@ const EditProfile = () => {
 
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
-  console.log("User in EditProfile jsx:", userId);
-
+ 
   const yourDetails = async () => {
     try {
       const res = await axios.get(`http://localhost:8000/byfindid/${userId}`, {
         withCredentials: true,
       });
-      console.log("User details in EditProfile.jsx:", res);
-      setUser(res?.data.data);
+       setUser(res?.data.data);
     } catch (err) {
       console.log(err.message);
     }

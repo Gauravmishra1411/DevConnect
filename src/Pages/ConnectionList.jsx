@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ConnectionList = () => {
   const userId = localStorage.getItem("userId");
-  console.log(userId, "userId in ConnectionList.jsx");
+
   const [connections, setConnections] = useState();
   const ConnectionList = async () => {
     try {
@@ -14,7 +14,7 @@ const ConnectionList = () => {
         { withCredentials: true }
       );
       setConnections(Response?.data?.data);
-      console.log("Connections data:", Response?.data?.data);
+      
     } catch (err) {
       console.log(err.message);
     }

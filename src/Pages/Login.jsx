@@ -33,8 +33,7 @@ const Login = () => {
         dispatch(addUser(responseLogin?.data.data));
         navigate("/profile");
       }
-      // console.log("Login response....", responseLogin?.data?.data);
-    } catch (err) {
+     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
